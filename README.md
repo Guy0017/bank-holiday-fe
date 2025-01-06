@@ -1,1 +1,1 @@
-# bank-holiday-fe
+This app calculates Bank Holidays for England, United Kingdom.
