@@ -5,12 +5,13 @@ function App() {
   const [year, setYear] = useState(0);
   const [newYearDay, setNewYearDay] = useState('');
 
-  const newYearString = `1 January ${year}`;
-
   function handleSubmit(e) {
     e.preventDefault();
 
-    setYear(Number(e.target[0].value));
+    const year = Number(e.target[0].value)
+
+    setYear(year);
+    setNewYearDay(`1 January ${year}`)
   }
 
   function handleClear(e) {
@@ -24,7 +25,7 @@ function App() {
       <>
         <h1>Success: {year}</h1>
         <br />
-        <p>New Year's Day: {newYearString}</p>
+        <p>New Year's Day: {newYearDay}</p>
         <button onClick={handleClear}>Back</button>
       </>
     );
