@@ -6,6 +6,7 @@ function App() {
   const [newYearDay, setNewYearDay] = useState('');
   const [christmasDay, setChristmasDay] = useState('');
   const [boxingDay, setBoxingDay] = useState('');
+  const [earlyMayDay, setEarlyMayDay] = useState('');
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -14,6 +15,7 @@ function App() {
     const newYear = `${year} January 1`;
     const christmas = `${year} December 25`;
     const boxing = `${year} December 26`;
+    const firstMondayMay = `${year} May 1`;
 
     setYear(year);
 
@@ -33,6 +35,7 @@ function App() {
         dayOfMonth > 1 ? '(Substitute Holiday)' : ''
       }`;
     });
+
     setChristmasDay(() => {
       let dayOfWeek = findDayOfWeek(christmas);
       let dayOfMonth = 25;
@@ -49,6 +52,7 @@ function App() {
         dayOfMonth > 25 ? '(Substitute Holiday)' : ''
       }`;
     });
+
     setBoxingDay(() => {
       let dayOfWeek = findDayOfWeek(boxing);
       let dayOfMonth = 26;
@@ -64,6 +68,20 @@ function App() {
       return `${dayOfWeek}, ${dayOfMonth} December ${year} ${
         dayOfMonth > 26 ? '(Substitute Holiday)' : ''
       }`;
+    });
+
+    setEarlyMayDay(() => {
+      let dayOfWeek = findDayOfWeek(firstMondayMay);
+      let dayOfMonth = 1;
+
+      if (dayOfWeek !== 'Monday') {
+        do {
+          dayOfMonth++;
+          dayOfWeek = findDayOfWeek(`${year} May ${dayOfMonth}`);
+        } while (dayOfWeek !== 'Monday');
+      }
+
+      return `${dayOfWeek}, ${dayOfMonth} May ${year}`;
     });
   }
 
@@ -98,6 +116,7 @@ function App() {
         <p>New Year's Day: {newYearDay}</p>
         <p>Christmas Day: {christmasDay}</p>
         <p>Boxing Day: {boxingDay}</p>
+        <p>Early May Holiday: {earlyMayDay}</p>
         <button onClick={handleClear}>Back</button>
       </>
     );
