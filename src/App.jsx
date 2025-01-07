@@ -5,6 +5,7 @@ function App() {
   const [year, setYear] = useState(0);
   const [newYearDay, setNewYearDay] = useState('');
   const [christmasDay, setChristmasDay] = useState('');
+  const [boxingDay, setBoxingDay] = useState('');
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -12,6 +13,7 @@ function App() {
     const year = Number(e.target[0].value);
     const newYear = `${year} January 1`;
     const christmas = `${year} December 25`;
+    const boxing = `${year} December 26`;
 
     setYear(year);
 
@@ -47,6 +49,22 @@ function App() {
         dayOfMonth > 25 ? '(Substitute Holiday)' : ''
       }`;
     });
+    setBoxingDay(() => {
+      let dayOfWeek = findDayOfWeek(boxing);
+      let dayOfMonth = 26;
+
+      if (dayOfWeek === 'Saturday' || dayOfWeek === 'Sunday') {
+        dayOfWeek === 'Saturday'
+          ? (dayOfMonth = dayOfMonth + 2)
+          : (dayOfMonth = dayOfMonth + 1);
+
+        dayOfWeek = findDayOfWeek(`${year} December ${dayOfMonth}`);
+      }
+
+      return `${dayOfWeek}, ${dayOfMonth} December ${year} ${
+        dayOfMonth > 26 ? '(Substitute Holiday)' : ''
+      }`;
+    });
   }
 
   function findDayOfWeek(bankHoliday) {
@@ -79,6 +97,7 @@ function App() {
         <br />
         <p>New Year's Day: {newYearDay}</p>
         <p>Christmas Day: {christmasDay}</p>
+        <p>Boxing Day: {boxingDay}</p>
         <button onClick={handleClear}>Back</button>
       </>
     );
