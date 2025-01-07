@@ -10,6 +10,7 @@ function App() {
   const [lateMayDay, setLateMayDay] = useState('');
   const [summerDay, setSummerDay] = useState('');
   const [goodFriday, setGoodFriday] = useState('');
+  const [easterMonday, setEasterMonday] = useState('');
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -120,13 +121,29 @@ function App() {
 
     setGoodFriday(() => {
       let dayOfWeek = 'Sunday';
-      let date = easterSunday;
+      let date = new Date(easterSunday);
 
-      while (dayOfWeek !== 'Monday') {
+      while (dayOfWeek !== 'Friday') {
         date.setDate(date.getDate() - 1);
         dayOfWeek = findDayOfWeek(date);
 
-        if (dayOfWeek !== 'Monday') break;
+        if (dayOfWeek === 'Friday') break;
+      }
+
+      return `${dayOfWeek}, ${date.getDate()} ${date.toLocaleString('en-GB', {
+        month: 'long',
+      })} ${year}`;
+    });
+
+    setEasterMonday(() => {
+      let dayOfWeek = 'Sunday';
+      let date = new Date(easterSunday);
+
+      while (dayOfWeek !== 'Monday') {
+        date.setDate(date.getDate() + 1);
+        dayOfWeek = findDayOfWeek(date);
+
+        if (dayOfWeek === 'Monday') break;
       }
 
       return `${dayOfWeek}, ${date.getDate()} ${date.toLocaleString('en-GB', {
@@ -183,12 +200,13 @@ function App() {
         <h1>Bank Holidays for {year}:</h1>
         <br />
         <p>New Year's Day: {newYearDay}</p>
-        <p>Christmas Day: {christmasDay}</p>
-        <p>Boxing Day: {boxingDay}</p>
         <p>Early May Holiday: {earlyMayDay}</p>
         <p>Spring Holiday: {lateMayDay}</p>
-        <p>Summer Holiday: {summerDay}</p>
         <p>Good Friday: {goodFriday}</p>
+        <p>Easter Monday: {easterMonday}</p>
+        <p>Summer Holiday: {summerDay}</p>
+        <p>Christmas Day: {christmasDay}</p>
+        <p>Boxing Day: {boxingDay}</p>
         <button onClick={handleClear}>Back</button>
       </>
     );
