@@ -8,6 +8,7 @@ function App() {
   const [boxingDay, setBoxingDay] = useState('');
   const [earlyMayDay, setEarlyMayDay] = useState('');
   const [lateMayDay, setLateMayDay] = useState('');
+  const [summerDay, setSummerDay] = useState('');
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -18,6 +19,7 @@ function App() {
     const boxing = `${year} December 26`;
     const firstMondayMay = `${year} May 1`;
     const lastMondayMay = `${year} May 31`;
+    const lastMondayAuguest = `${year} August 31`;
 
     setYear(year);
 
@@ -99,6 +101,20 @@ function App() {
 
       return `${dayOfWeek}, ${dayOfMonth} May ${year}`;
     });
+
+    setSummerDay(() => {
+      let dayOfWeek = findDayOfWeek(lastMondayAuguest);
+      let dayOfMonth = 31;
+
+      if (dayOfWeek !== 'Monday') {
+        do {
+          dayOfMonth--;
+          dayOfWeek = findDayOfWeek(`${year} August ${dayOfMonth}`);
+        } while (dayOfWeek !== 'Monday');
+      }
+
+      return `${dayOfWeek}, ${dayOfMonth} August ${year}`;
+    });
   }
 
   function findDayOfWeek(bankHoliday) {
@@ -134,6 +150,7 @@ function App() {
         <p>Boxing Day: {boxingDay}</p>
         <p>Early May Holiday: {earlyMayDay}</p>
         <p>Spring Holiday: {lateMayDay}</p>
+        <p>Summer Holiday: {summerDay}</p>
         <button onClick={handleClear}>Back</button>
       </>
     );
