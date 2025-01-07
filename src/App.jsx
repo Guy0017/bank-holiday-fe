@@ -127,7 +127,7 @@ function App() {
   if (year) {
     return (
       <>
-        <h1>Success: {year}</h1>
+        <h1>Bank Holidays for {year}:</h1>
         <br />
         <p>New Year's Day: {newYearDay}</p>
         <p>Christmas Day: {christmasDay}</p>
