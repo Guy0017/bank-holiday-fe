@@ -20,8 +20,11 @@ function App() {
     const firstMondayMay = `${year} May 1`;
     const lastMondayMay = `${year} May 31`;
     const lastMondayAuguest = `${year} August 31`;
+    const easterSunday = gaussAlgorithm(year);
 
     setYear(year);
+
+    console.log(easterSunday);
 
     setNewYearDay(() => {
       let dayOfWeek = findDayOfWeek(newYear);
@@ -115,6 +118,25 @@ function App() {
 
       return `${dayOfWeek}, ${dayOfMonth} August ${year}`;
     });
+  }
+
+  function gaussAlgorithm(easterYear) {
+    const A = easterYear % 19;
+    const B = easterYear % 4;
+    const C = easterYear % 7;
+    const P = Math.floor(easterYear / 100.0);
+    const Q = Math.floor((13 + 8 * P) / 25.0);
+    const M = Math.floor(15 - Q + P - Math.floor(P / 4)) % 30;
+    const N = Math.floor(4 + P - Math.floor(P / 4)) % 7;
+    const D = Math.floor(19 * A + M) % 30;
+    const E = Math.floor(2 * B + 4 * C + 6 * D + N) % 7;
+
+    const days = Math.floor(21 + D + E);
+    const easterSunday = new Date(`${easterYear}-3-1`);
+
+    easterSunday.setDate(easterSunday.getDate() + days);
+
+    return easterSunday;
   }
 
   function findDayOfWeek(bankHoliday) {
