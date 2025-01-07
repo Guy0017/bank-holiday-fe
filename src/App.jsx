@@ -9,6 +9,7 @@ function App() {
   const [earlyMayDay, setEarlyMayDay] = useState('');
   const [lateMayDay, setLateMayDay] = useState('');
   const [summerDay, setSummerDay] = useState('');
+  const [goodFriday, setGoodFriday] = useState('');
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -23,8 +24,6 @@ function App() {
     const easterSunday = gaussAlgorithm(year);
 
     setYear(year);
-
-    console.log(easterSunday);
 
     setNewYearDay(() => {
       let dayOfWeek = findDayOfWeek(newYear);
@@ -118,6 +117,22 @@ function App() {
 
       return `${dayOfWeek}, ${dayOfMonth} August ${year}`;
     });
+
+    setGoodFriday(() => {
+      let dayOfWeek = 'Sunday';
+      let date = easterSunday;
+
+      while (dayOfWeek !== 'Monday') {
+        date.setDate(date.getDate() - 1);
+        dayOfWeek = findDayOfWeek(date);
+
+        if (dayOfWeek !== 'Monday') break;
+      }
+
+      return `${dayOfWeek}, ${date.getDate()} ${date.toLocaleString('en-GB', {
+        month: 'long',
+      })} ${year}`;
+    });
   }
 
   function gaussAlgorithm(easterYear) {
@@ -173,6 +188,7 @@ function App() {
         <p>Early May Holiday: {earlyMayDay}</p>
         <p>Spring Holiday: {lateMayDay}</p>
         <p>Summer Holiday: {summerDay}</p>
+        <p>Good Friday: {goodFriday}</p>
         <button onClick={handleClear}>Back</button>
       </>
     );
