@@ -9,6 +9,8 @@ function App() {
   const [earlyMayDay, setEarlyMayDay] = useState('');
   const [lateMayDay, setLateMayDay] = useState('');
   const [summerDay, setSummerDay] = useState('');
+  const [goodFriday, setGoodFriday] = useState('');
+  const [easterMonday, setEasterMonday] = useState('');
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -20,6 +22,7 @@ function App() {
     const firstMondayMay = `${year} May 1`;
     const lastMondayMay = `${year} May 31`;
     const lastMondayAuguest = `${year} August 31`;
+    const easterSunday = gaussAlgorithm(year);
 
     setYear(year);
 
@@ -115,6 +118,57 @@ function App() {
 
       return `${dayOfWeek}, ${dayOfMonth} August ${year}`;
     });
+
+    setGoodFriday(() => {
+      let dayOfWeek = 'Sunday';
+      let date = new Date(easterSunday);
+
+      while (dayOfWeek !== 'Friday') {
+        date.setDate(date.getDate() - 1);
+        dayOfWeek = findDayOfWeek(date);
+
+        if (dayOfWeek === 'Friday') break;
+      }
+
+      return `${dayOfWeek}, ${date.getDate()} ${date.toLocaleString('en-GB', {
+        month: 'long',
+      })} ${year}`;
+    });
+
+    setEasterMonday(() => {
+      let dayOfWeek = 'Sunday';
+      let date = new Date(easterSunday);
+
+      while (dayOfWeek !== 'Monday') {
+        date.setDate(date.getDate() + 1);
+        dayOfWeek = findDayOfWeek(date);
+
+        if (dayOfWeek === 'Monday') break;
+      }
+
+      return `${dayOfWeek}, ${date.getDate()} ${date.toLocaleString('en-GB', {
+        month: 'long',
+      })} ${year}`;
+    });
+  }
+
+  function gaussAlgorithm(easterYear) {
+    const A = easterYear % 19;
+    const B = easterYear % 4;
+    const C = easterYear % 7;
+    const P = Math.floor(easterYear / 100.0);
+    const Q = Math.floor((13 + 8 * P) / 25.0);
+    const M = Math.floor(15 - Q + P - Math.floor(P / 4)) % 30;
+    const N = Math.floor(4 + P - Math.floor(P / 4)) % 7;
+    const D = Math.floor(19 * A + M) % 30;
+    const E = Math.floor(2 * B + 4 * C + 6 * D + N) % 7;
+
+    const days = Math.floor(21 + D + E);
+    const easterSunday = new Date(`${easterYear}-3-1`);
+
+    easterSunday.setDate(easterSunday.getDate() + days);
+
+    return easterSunday;
   }
 
   function findDayOfWeek(bankHoliday) {
@@ -146,11 +200,13 @@ function App() {
         <h1>Bank Holidays for {year}:</h1>
         <br />
         <p>New Year's Day: {newYearDay}</p>
-        <p>Christmas Day: {christmasDay}</p>
-        <p>Boxing Day: {boxingDay}</p>
         <p>Early May Holiday: {earlyMayDay}</p>
         <p>Spring Holiday: {lateMayDay}</p>
+        <p>Good Friday: {goodFriday}</p>
+        <p>Easter Monday: {easterMonday}</p>
         <p>Summer Holiday: {summerDay}</p>
+        <p>Christmas Day: {christmasDay}</p>
+        <p>Boxing Day: {boxingDay}</p>
         <button onClick={handleClear}>Back</button>
       </>
     );
