@@ -16,9 +16,6 @@ function App() {
     e.preventDefault();
 
     const year = Number(e.target[0].value);
-    const newYear = `${year} January 1`;
-    const christmas = `${year} December 25`;
-    const boxing = `${year} December 26`;
     const firstMondayMay = `${year} May 1`;
     const lastMondayMay = `${year} May 31`;
     const lastMondayAuguest = `${year} August 31`;
@@ -26,27 +23,31 @@ function App() {
 
     setYear(year);
 
-    setNewYearDay(() => {
-      let dayOfWeek = findDayOfWeek(newYear);
-      let dayOfMonth = 1;
+    let newYearDayOfMonth = 1;
+    let newYearDayOfWeek = findDayOfWeek(
+      `${year} January ${newYearDayOfMonth}`
+    );
 
-      if (dayOfWeek === 'Saturday' || dayOfWeek === 'Sunday') {
-        dayOfWeek === 'Saturday'
-          ? (dayOfMonth = dayOfMonth + 2)
-          : (dayOfMonth = dayOfMonth + 1);
+    if (newYearDayOfWeek === 'Saturday' || newYearDayOfWeek === 'Sunday') {
+      newYearDayOfWeek === 'Saturday'
+        ? (newYearDayOfMonth += 2)
+        : (newYearDayOfMonth += 1);
 
-        dayOfWeek = findDayOfWeek(`${year} January ${dayOfMonth}`);
-      }
+      newYearDayOfWeek = findDayOfWeek(`${year} January ${newYearDayOfMonth}`);
+    }
 
-      return `${dayOfWeek}, ${dayOfMonth} January ${year} ${
-        dayOfMonth > 1 ? '(Substitute Holiday)' : ''
-      }`;
-    });
+    setNewYearDay(
+      `${newYearDayOfWeek}, ${newYearDayOfMonth} December ${year} ${
+        newYearDayOfMonth > 1 ? '(Substitute Holiday)' : ''
+      }`
+    );
 
-    let christmasDayOfWeek = findDayOfWeek(christmas);
     let christmasDayOfMonth = 25;
-    let boxingDayOfWeek = findDayOfWeek(boxing);
+    let christmasDayOfWeek = findDayOfWeek(
+      `${year} December ${christmasDayOfMonth}`
+    );
     let boxingDayOfMonth = 26;
+    let boxingDayOfWeek = findDayOfWeek(`${year} December ${boxingDayOfMonth}`);
 
     if (christmasDayOfWeek === 'Saturday' || christmasDayOfWeek === 'Sunday') {
       christmasDayOfWeek === 'Saturday'
@@ -71,10 +72,9 @@ function App() {
     }
 
     setChristmasDay(
-      () =>
-        `${christmasDayOfWeek}, ${christmasDayOfMonth} December ${year} ${
-          christmasDayOfMonth > 25 ? '(Substitute Holiday)' : ''
-        }`
+      `${christmasDayOfWeek}, ${christmasDayOfMonth} December ${year} ${
+        christmasDayOfMonth > 25 ? '(Substitute Holiday)' : ''
+      }`
     );
 
     setBoxingDay(
