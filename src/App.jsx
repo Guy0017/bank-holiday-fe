@@ -16,10 +16,7 @@ function App() {
     e.preventDefault();
 
     const year = Number(e.target[0].value);
-    const firstMondayMay = `${year} May 1`;
-    const lastMondayMay = `${year} May 31`;
     const lastMondayAuguest = `${year} August 31`;
-    const easterSunday = gaussAlgorithm(year);
 
     setYear(year);
 
@@ -83,67 +80,25 @@ function App() {
       }`
     );
 
-    // setChristmasDay(() => {
-    //   let dayOfWeek = findDayOfWeek(christmas);
-    //   let dayOfMonth = 25;
+    let earlyMayDayOfMonth = 1;
+    let earlyMayDayOfWeek = findDayOfWeek(`${year} May ${earlyMayDayOfMonth}`);
 
-    //   if (dayOfWeek === 'Saturday' || dayOfWeek === 'Sunday') {
-    //     dayOfWeek === 'Saturday'
-    //       ? (dayOfMonth = dayOfMonth + 2)
-    //       : (dayOfMonth = dayOfMonth + 1);
+    while (earlyMayDayOfWeek !== 'Monday') {
+      earlyMayDayOfMonth++;
+      earlyMayDayOfWeek = findDayOfWeek(`${year} May ${earlyMayDayOfMonth}`);
+    }
 
-    //     dayOfWeek = findDayOfWeek(`${year} December ${dayOfMonth}`);
-    //   }
+    setEarlyMayDay(`${earlyMayDayOfWeek}, ${earlyMayDayOfMonth} May ${year}`);
 
-    //   return `${dayOfWeek}, ${dayOfMonth} December ${year} ${
-    //     dayOfMonth > 25 ? '(Substitute Holiday)' : ''
-    //   }`;
-    // });
+    let lateMayDayOfMonth = 31;
+    let lateMayDayOfWeek = findDayOfWeek(`${year} May ${lateMayDayOfMonth}`);
 
-    // setBoxingDay(() => {
-    //   let dayOfWeek = findDayOfWeek(boxing);
-    //   let dayOfMonth = 26;
+    while (lateMayDayOfWeek !== 'Monday') {
+      lateMayDayOfMonth--;
+      lateMayDayOfWeek = findDayOfWeek(`${year} May ${lateMayDayOfMonth}`);
+    }
 
-    //   if (dayOfWeek === 'Saturday' || dayOfWeek === 'Sunday') {
-    //     dayOfWeek === 'Saturday'
-    //       ? (dayOfMonth = dayOfMonth + 2)
-    //       : (dayOfMonth = dayOfMonth + 1);
-
-    //     dayOfWeek = findDayOfWeek(`${year} December ${dayOfMonth}`);
-    //   }
-
-    //   return `${dayOfWeek}, ${dayOfMonth} December ${year} ${
-    //     dayOfMonth > 26 ? '(Substitute Holiday)' : ''
-    //   }`;
-    // });
-
-    setEarlyMayDay(() => {
-      let dayOfWeek = findDayOfWeek(firstMondayMay);
-      let dayOfMonth = 1;
-
-      if (dayOfWeek !== 'Monday') {
-        do {
-          dayOfMonth++;
-          dayOfWeek = findDayOfWeek(`${year} May ${dayOfMonth}`);
-        } while (dayOfWeek !== 'Monday');
-      }
-
-      return `${dayOfWeek}, ${dayOfMonth} May ${year}`;
-    });
-
-    setLateMayDay(() => {
-      let dayOfWeek = findDayOfWeek(lastMondayMay);
-      let dayOfMonth = 31;
-
-      if (dayOfWeek !== 'Monday') {
-        do {
-          dayOfMonth--;
-          dayOfWeek = findDayOfWeek(`${year} May ${dayOfMonth}`);
-        } while (dayOfWeek !== 'Monday');
-      }
-
-      return `${dayOfWeek}, ${dayOfMonth} May ${year}`;
-    });
+    setLateMayDay(`${lateMayDayOfWeek}, ${lateMayDayOfMonth} May ${year}`);
 
     setSummerDay(() => {
       let dayOfWeek = findDayOfWeek(lastMondayAuguest);
@@ -158,6 +113,8 @@ function App() {
 
       return `${dayOfWeek}, ${dayOfMonth} August ${year}`;
     });
+
+    const easterSunday = gaussAlgorithm(year);
 
     setGoodFriday(() => {
       let dayOfWeek = 'Sunday';
@@ -239,14 +196,14 @@ function App() {
       <>
         <h1>Bank Holidays for {year}:</h1>
         <br />
-        <p>New Year's Day: {newYearDay}</p>
+        {/* <p>New Year's Day: {newYearDay}</p> */}
         <p>Early May Holiday: {earlyMayDay}</p>
         <p>Spring Holiday: {lateMayDay}</p>
-        <p>Good Friday: {goodFriday}</p>
+        {/* <p>Good Friday: {goodFriday}</p>
         <p>Easter Monday: {easterMonday}</p>
         <p>Summer Holiday: {summerDay}</p>
         <p>Christmas Day: {christmasDay}</p>
-        <p>Boxing Day: {boxingDay}</p>
+        <p>Boxing Day: {boxingDay}</p> */}
         <button onClick={handleClear}>Back</button>
       </>
     );
