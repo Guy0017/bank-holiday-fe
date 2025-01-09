@@ -12,7 +12,7 @@ function App() {
   const [goodFriday, setGoodFriday] = useState('');
   const [easterMonday, setEasterMonday] = useState('');
 
-  async function handleSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
 
     const year = Number(e.target[0].value);
