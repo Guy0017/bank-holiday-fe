@@ -16,7 +16,6 @@ function App() {
     e.preventDefault();
 
     const year = Number(e.target[0].value);
-    const lastMondayAuguest = `${year} August 31`;
 
     setYear(year);
 
@@ -100,19 +99,21 @@ function App() {
 
     setLateMayDay(`${lateMayDayOfWeek}, ${lateMayDayOfMonth} May ${year}`);
 
-    setSummerDay(() => {
-      let dayOfWeek = findDayOfWeek(lastMondayAuguest);
-      let dayOfMonth = 31;
+    let augustLastMondayOfMonth = 31;
+    let augustLastMondayDayOfWeek = findDayOfWeek(
+      `${year} August ${augustLastMondayOfMonth}`
+    );
 
-      if (dayOfWeek !== 'Monday') {
-        do {
-          dayOfMonth--;
-          dayOfWeek = findDayOfWeek(`${year} August ${dayOfMonth}`);
-        } while (dayOfWeek !== 'Monday');
-      }
+    while (augustLastMondayDayOfWeek !== 'Monday') {
+      augustLastMondayOfMonth--;
+      augustLastMondayDayOfWeek = findDayOfWeek(
+        `${year} August ${augustLastMondayOfMonth}`
+      );
+    }
 
-      return `${dayOfWeek}, ${dayOfMonth} August ${year}`;
-    });
+    setSummerDay(
+      `${augustLastMondayDayOfWeek}, ${augustLastMondayOfMonth} August ${year}`
+    );
 
     const easterSunday = gaussAlgorithm(year);
 
@@ -196,14 +197,14 @@ function App() {
       <>
         <h1>Bank Holidays for {year}:</h1>
         <br />
-        {/* <p>New Year's Day: {newYearDay}</p> */}
+        <p>New Year's Day: {newYearDay}</p>
         <p>Early May Holiday: {earlyMayDay}</p>
         <p>Spring Holiday: {lateMayDay}</p>
-        {/* <p>Good Friday: {goodFriday}</p>
+        <p>Good Friday: {goodFriday}</p>
         <p>Easter Monday: {easterMonday}</p>
         <p>Summer Holiday: {summerDay}</p>
         <p>Christmas Day: {christmasDay}</p>
-        <p>Boxing Day: {boxingDay}</p> */}
+        <p>Boxing Day: {boxingDay}</p>
         <button onClick={handleClear}>Back</button>
       </>
     );
