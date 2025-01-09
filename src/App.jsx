@@ -116,38 +116,44 @@ function App() {
     );
 
     const easterSunday = gaussAlgorithm(year);
+    let goodFridayDate = new Date(easterSunday);
+    let easterMondayDate = new Date(easterSunday);
 
-    setGoodFriday(() => {
-      let dayOfWeek = 'Sunday';
-      let date = new Date(easterSunday);
+    while (
+      goodFridayDate.toLocaleString('en-GB', { weekday: 'long' }) !== 'Friday'
+    ) {
+      goodFridayDate.setDate(goodFridayDate.getDate() - 1);
+    }
 
-      while (dayOfWeek !== 'Friday') {
-        date.setDate(date.getDate() - 1);
-        dayOfWeek = findDayOfWeek(date);
-
-        if (dayOfWeek === 'Friday') break;
-      }
-
-      return `${dayOfWeek}, ${date.getDate()} ${date.toLocaleString('en-GB', {
-        month: 'long',
-      })} ${year}`;
+    const goodFridayDayOfWeek = goodFridayDate.toLocaleString('en-GB', {
+      weekday: 'long',
+    });
+    const goodFridayDayOfMonth = goodFridayDate.getDate();
+    const goodFridayMonth = goodFridayDate.toLocaleString('en-GB', {
+      month: 'long',
     });
 
-    setEasterMonday(() => {
-      let dayOfWeek = 'Sunday';
-      let date = new Date(easterSunday);
+    setGoodFriday(
+      `${goodFridayDayOfWeek}, ${goodFridayDayOfMonth} ${goodFridayMonth} ${year}`
+    );
 
-      while (dayOfWeek !== 'Monday') {
-        date.setDate(date.getDate() + 1);
-        dayOfWeek = findDayOfWeek(date);
+    while (
+      easterMondayDate.toLocaleString('en-GB', { weekday: 'long' }) !== 'Monday'
+    ) {
+      easterMondayDate.setDate(easterMondayDate.getDate() + 1);
+    }
 
-        if (dayOfWeek === 'Monday') break;
-      }
-
-      return `${dayOfWeek}, ${date.getDate()} ${date.toLocaleString('en-GB', {
-        month: 'long',
-      })} ${year}`;
+    const easterMondayDayOfWeek = easterMondayDate.toLocaleString('en-GB', {
+      weekday: 'long',
     });
+    const easterMondayDayOfMonth = easterMondayDate.getDate();
+    const easterMondayMonth = easterMondayDate.toLocaleString('en-GB', {
+      month: 'long',
+    });
+
+    setEasterMonday(
+      `${easterMondayDayOfWeek}, ${easterMondayDayOfMonth} ${easterMondayMonth} ${year}`
+    );
   }
 
   function gaussAlgorithm(easterYear) {
