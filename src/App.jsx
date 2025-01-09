@@ -12,7 +12,7 @@ function App() {
   const [goodFriday, setGoodFriday] = useState('');
   const [easterMonday, setEasterMonday] = useState('');
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     const year = Number(e.target[0].value);
@@ -43,39 +43,79 @@ function App() {
       }`;
     });
 
-    setChristmasDay(() => {
-      let dayOfWeek = findDayOfWeek(christmas);
-      let dayOfMonth = 25;
+    let christmasDayOfWeek = findDayOfWeek(christmas);
+    let christmasDayOfMonth = 25;
+    let boxingDayOfWeek = findDayOfWeek(boxing);
+    let boxingDayOfMonth = 26;
 
-      if (dayOfWeek === 'Saturday' || dayOfWeek === 'Sunday') {
-        dayOfWeek === 'Saturday'
-          ? (dayOfMonth = dayOfMonth + 2)
-          : (dayOfMonth = dayOfMonth + 1);
+    if (christmasDayOfWeek === 'Saturday' || christmasDayOfWeek === 'Sunday') {
+      christmasDayOfWeek === 'Saturday'
+        ? (christmasDayOfMonth += 2)
+        : (christmasDayOfMonth += 1);
 
-        dayOfWeek = findDayOfWeek(`${year} December ${dayOfMonth}`);
-      }
+      if (christmasDayOfMonth === 26) christmasDayOfMonth += 1;
 
-      return `${dayOfWeek}, ${dayOfMonth} December ${year} ${
-        dayOfMonth > 25 ? '(Substitute Holiday)' : ''
-      }`;
-    });
+      christmasDayOfWeek = findDayOfWeek(
+        `${year} December ${christmasDayOfMonth}`
+      );
+    }
 
-    setBoxingDay(() => {
-      let dayOfWeek = findDayOfWeek(boxing);
-      let dayOfMonth = 26;
+    if (boxingDayOfWeek === 'Saturday' || boxingDayOfWeek === 'Sunday') {
+      boxingDayOfWeek === 'Saturday'
+        ? (boxingDayOfMonth += 2)
+        : (boxingDayOfMonth += 1);
 
-      if (dayOfWeek === 'Saturday' || dayOfWeek === 'Sunday') {
-        dayOfWeek === 'Saturday'
-          ? (dayOfMonth = dayOfMonth + 2)
-          : (dayOfMonth = dayOfMonth + 1);
+      if (boxingDayOfMonth === christmasDayOfMonth) boxingDayOfMonth += 1;
 
-        dayOfWeek = findDayOfWeek(`${year} December ${dayOfMonth}`);
-      }
+      boxingDayOfWeek = findDayOfWeek(`${year} December ${boxingDayOfMonth}`);
+    }
 
-      return `${dayOfWeek}, ${dayOfMonth} December ${year} ${
-        dayOfMonth > 26 ? '(Substitute Holiday)' : ''
-      }`;
-    });
+    setChristmasDay(
+      () =>
+        `${christmasDayOfWeek}, ${christmasDayOfMonth} December ${year} ${
+          christmasDayOfMonth > 25 ? '(Substitute Holiday)' : ''
+        }`
+    );
+
+    setBoxingDay(
+      `${boxingDayOfWeek}, ${boxingDayOfMonth} December ${year} ${
+        boxingDayOfMonth > 26 ? '(Substitute Holiday)' : ''
+      }`
+    );
+
+    // setChristmasDay(() => {
+    //   let dayOfWeek = findDayOfWeek(christmas);
+    //   let dayOfMonth = 25;
+
+    //   if (dayOfWeek === 'Saturday' || dayOfWeek === 'Sunday') {
+    //     dayOfWeek === 'Saturday'
+    //       ? (dayOfMonth = dayOfMonth + 2)
+    //       : (dayOfMonth = dayOfMonth + 1);
+
+    //     dayOfWeek = findDayOfWeek(`${year} December ${dayOfMonth}`);
+    //   }
+
+    //   return `${dayOfWeek}, ${dayOfMonth} December ${year} ${
+    //     dayOfMonth > 25 ? '(Substitute Holiday)' : ''
+    //   }`;
+    // });
+
+    // setBoxingDay(() => {
+    //   let dayOfWeek = findDayOfWeek(boxing);
+    //   let dayOfMonth = 26;
+
+    //   if (dayOfWeek === 'Saturday' || dayOfWeek === 'Sunday') {
+    //     dayOfWeek === 'Saturday'
+    //       ? (dayOfMonth = dayOfMonth + 2)
+    //       : (dayOfMonth = dayOfMonth + 1);
+
+    //     dayOfWeek = findDayOfWeek(`${year} December ${dayOfMonth}`);
+    //   }
+
+    //   return `${dayOfWeek}, ${dayOfMonth} December ${year} ${
+    //     dayOfMonth > 26 ? '(Substitute Holiday)' : ''
+    //   }`;
+    // });
 
     setEarlyMayDay(() => {
       let dayOfWeek = findDayOfWeek(firstMondayMay);
