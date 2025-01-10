@@ -33,7 +33,7 @@ function App() {
     }
 
     setNewYearDay(
-      `${newYearDayOfWeek}, ${newYearDayOfMonth} December ${year} ${
+      `${newYearDayOfWeek}, ${newYearDayOfMonth} January ${year} ${
         newYearDayOfMonth > 1 ? '(Substitute Holiday)' : ''
       }`
     );
