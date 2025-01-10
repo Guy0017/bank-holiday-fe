@@ -12,41 +12,38 @@ function App() {
   const [goodFriday, setGoodFriday] = useState('');
   const [easterMonday, setEasterMonday] = useState('');
 
-  async function handleSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
 
     const year = Number(e.target[0].value);
-    const newYear = `${year} January 1`;
-    const christmas = `${year} December 25`;
-    const boxing = `${year} December 26`;
-    const firstMondayMay = `${year} May 1`;
-    const lastMondayMay = `${year} May 31`;
-    const lastMondayAuguest = `${year} August 31`;
-    const easterSunday = gaussAlgorithm(year);
 
     setYear(year);
 
-    setNewYearDay(() => {
-      let dayOfWeek = findDayOfWeek(newYear);
-      let dayOfMonth = 1;
+    let newYearDayOfMonth = 1;
+    let newYearDayOfWeek = findDayOfWeek(
+      `${year} January ${newYearDayOfMonth}`
+    );
 
-      if (dayOfWeek === 'Saturday' || dayOfWeek === 'Sunday') {
-        dayOfWeek === 'Saturday'
-          ? (dayOfMonth = dayOfMonth + 2)
-          : (dayOfMonth = dayOfMonth + 1);
+    if (newYearDayOfWeek === 'Saturday' || newYearDayOfWeek === 'Sunday') {
+      newYearDayOfWeek === 'Saturday'
+        ? (newYearDayOfMonth += 2)
+        : (newYearDayOfMonth += 1);
 
-        dayOfWeek = findDayOfWeek(`${year} January ${dayOfMonth}`);
-      }
+      newYearDayOfWeek = findDayOfWeek(`${year} January ${newYearDayOfMonth}`);
+    }
 
-      return `${dayOfWeek}, ${dayOfMonth} January ${year} ${
-        dayOfMonth > 1 ? '(Substitute Holiday)' : ''
-      }`;
-    });
+    setNewYearDay(
+      `${newYearDayOfWeek}, ${newYearDayOfMonth} January ${year} ${
+        newYearDayOfMonth > 1 ? '(Substitute Holiday)' : ''
+      }`
+    );
 
-    let christmasDayOfWeek = findDayOfWeek(christmas);
     let christmasDayOfMonth = 25;
-    let boxingDayOfWeek = findDayOfWeek(boxing);
+    let christmasDayOfWeek = findDayOfWeek(
+      `${year} December ${christmasDayOfMonth}`
+    );
     let boxingDayOfMonth = 26;
+    let boxingDayOfWeek = findDayOfWeek(`${year} December ${boxingDayOfMonth}`);
 
     if (christmasDayOfWeek === 'Saturday' || christmasDayOfWeek === 'Sunday') {
       christmasDayOfWeek === 'Saturday'
@@ -71,10 +68,9 @@ function App() {
     }
 
     setChristmasDay(
-      () =>
-        `${christmasDayOfWeek}, ${christmasDayOfMonth} December ${year} ${
-          christmasDayOfMonth > 25 ? '(Substitute Holiday)' : ''
-        }`
+      `${christmasDayOfWeek}, ${christmasDayOfMonth} December ${year} ${
+        christmasDayOfMonth > 25 ? '(Substitute Holiday)' : ''
+      }`
     );
 
     setBoxingDay(
@@ -83,113 +79,81 @@ function App() {
       }`
     );
 
-    // setChristmasDay(() => {
-    //   let dayOfWeek = findDayOfWeek(christmas);
-    //   let dayOfMonth = 25;
+    let earlyMayDayOfMonth = 1;
+    let earlyMayDayOfWeek = findDayOfWeek(`${year} May ${earlyMayDayOfMonth}`);
 
-    //   if (dayOfWeek === 'Saturday' || dayOfWeek === 'Sunday') {
-    //     dayOfWeek === 'Saturday'
-    //       ? (dayOfMonth = dayOfMonth + 2)
-    //       : (dayOfMonth = dayOfMonth + 1);
+    while (earlyMayDayOfWeek !== 'Monday') {
+      earlyMayDayOfMonth++;
+      earlyMayDayOfWeek = findDayOfWeek(`${year} May ${earlyMayDayOfMonth}`);
+    }
 
-    //     dayOfWeek = findDayOfWeek(`${year} December ${dayOfMonth}`);
-    //   }
+    setEarlyMayDay(`${earlyMayDayOfWeek}, ${earlyMayDayOfMonth} May ${year}`);
 
-    //   return `${dayOfWeek}, ${dayOfMonth} December ${year} ${
-    //     dayOfMonth > 25 ? '(Substitute Holiday)' : ''
-    //   }`;
-    // });
+    let lateMayDayOfMonth = 31;
+    let lateMayDayOfWeek = findDayOfWeek(`${year} May ${lateMayDayOfMonth}`);
 
-    // setBoxingDay(() => {
-    //   let dayOfWeek = findDayOfWeek(boxing);
-    //   let dayOfMonth = 26;
+    while (lateMayDayOfWeek !== 'Monday') {
+      lateMayDayOfMonth--;
+      lateMayDayOfWeek = findDayOfWeek(`${year} May ${lateMayDayOfMonth}`);
+    }
 
-    //   if (dayOfWeek === 'Saturday' || dayOfWeek === 'Sunday') {
-    //     dayOfWeek === 'Saturday'
-    //       ? (dayOfMonth = dayOfMonth + 2)
-    //       : (dayOfMonth = dayOfMonth + 1);
+    setLateMayDay(`${lateMayDayOfWeek}, ${lateMayDayOfMonth} May ${year}`);
 
-    //     dayOfWeek = findDayOfWeek(`${year} December ${dayOfMonth}`);
-    //   }
+    let augustLastMondayOfMonth = 31;
+    let augustLastMondayDayOfWeek = findDayOfWeek(
+      `${year} August ${augustLastMondayOfMonth}`
+    );
 
-    //   return `${dayOfWeek}, ${dayOfMonth} December ${year} ${
-    //     dayOfMonth > 26 ? '(Substitute Holiday)' : ''
-    //   }`;
-    // });
+    while (augustLastMondayDayOfWeek !== 'Monday') {
+      augustLastMondayOfMonth--;
+      augustLastMondayDayOfWeek = findDayOfWeek(
+        `${year} August ${augustLastMondayOfMonth}`
+      );
+    }
 
-    setEarlyMayDay(() => {
-      let dayOfWeek = findDayOfWeek(firstMondayMay);
-      let dayOfMonth = 1;
+    setSummerDay(
+      `${augustLastMondayDayOfWeek}, ${augustLastMondayOfMonth} August ${year}`
+    );
 
-      if (dayOfWeek !== 'Monday') {
-        do {
-          dayOfMonth++;
-          dayOfWeek = findDayOfWeek(`${year} May ${dayOfMonth}`);
-        } while (dayOfWeek !== 'Monday');
-      }
+    const easterSunday = gaussAlgorithm(year);
+    let goodFridayDate = new Date(easterSunday);
+    let easterMondayDate = new Date(easterSunday);
 
-      return `${dayOfWeek}, ${dayOfMonth} May ${year}`;
+    while (
+      goodFridayDate.toLocaleString('en-GB', { weekday: 'long' }) !== 'Friday'
+    ) {
+      goodFridayDate.setDate(goodFridayDate.getDate() - 1);
+    }
+
+    const goodFridayDayOfWeek = goodFridayDate.toLocaleString('en-GB', {
+      weekday: 'long',
+    });
+    const goodFridayDayOfMonth = goodFridayDate.getDate();
+    const goodFridayMonth = goodFridayDate.toLocaleString('en-GB', {
+      month: 'long',
     });
 
-    setLateMayDay(() => {
-      let dayOfWeek = findDayOfWeek(lastMondayMay);
-      let dayOfMonth = 31;
+    setGoodFriday(
+      `${goodFridayDayOfWeek}, ${goodFridayDayOfMonth} ${goodFridayMonth} ${year}`
+    );
 
-      if (dayOfWeek !== 'Monday') {
-        do {
-          dayOfMonth--;
-          dayOfWeek = findDayOfWeek(`${year} May ${dayOfMonth}`);
-        } while (dayOfWeek !== 'Monday');
-      }
+    while (
+      easterMondayDate.toLocaleString('en-GB', { weekday: 'long' }) !== 'Monday'
+    ) {
+      easterMondayDate.setDate(easterMondayDate.getDate() + 1);
+    }
 
-      return `${dayOfWeek}, ${dayOfMonth} May ${year}`;
+    const easterMondayDayOfWeek = easterMondayDate.toLocaleString('en-GB', {
+      weekday: 'long',
+    });
+    const easterMondayDayOfMonth = easterMondayDate.getDate();
+    const easterMondayMonth = easterMondayDate.toLocaleString('en-GB', {
+      month: 'long',
     });
 
-    setSummerDay(() => {
-      let dayOfWeek = findDayOfWeek(lastMondayAuguest);
-      let dayOfMonth = 31;
-
-      if (dayOfWeek !== 'Monday') {
-        do {
-          dayOfMonth--;
-          dayOfWeek = findDayOfWeek(`${year} August ${dayOfMonth}`);
-        } while (dayOfWeek !== 'Monday');
-      }
-
-      return `${dayOfWeek}, ${dayOfMonth} August ${year}`;
-    });
-
-    setGoodFriday(() => {
-      let dayOfWeek = 'Sunday';
-      let date = new Date(easterSunday);
-
-      while (dayOfWeek !== 'Friday') {
-        date.setDate(date.getDate() - 1);
-        dayOfWeek = findDayOfWeek(date);
-
-        if (dayOfWeek === 'Friday') break;
-      }
-
-      return `${dayOfWeek}, ${date.getDate()} ${date.toLocaleString('en-GB', {
-        month: 'long',
-      })} ${year}`;
-    });
-
-    setEasterMonday(() => {
-      let dayOfWeek = 'Sunday';
-      let date = new Date(easterSunday);
-
-      while (dayOfWeek !== 'Monday') {
-        date.setDate(date.getDate() + 1);
-        dayOfWeek = findDayOfWeek(date);
-
-        if (dayOfWeek === 'Monday') break;
-      }
-
-      return `${dayOfWeek}, ${date.getDate()} ${date.toLocaleString('en-GB', {
-        month: 'long',
-      })} ${year}`;
-    });
+    setEasterMonday(
+      `${easterMondayDayOfWeek}, ${easterMondayDayOfMonth} ${easterMondayMonth} ${year}`
+    );
   }
 
   function gaussAlgorithm(easterYear) {
