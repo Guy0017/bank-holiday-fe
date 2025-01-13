@@ -126,12 +126,7 @@ function App() {
     }
 
     setGoodFriday(
-      goodFridayDate.toLocaleString('en-GB', {
-        weekday: 'long',
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric',
-      })
+      goodFridayDate.toLocaleString('en-GB', { dateStyle: 'full' })
     );
 
     while (
@@ -142,10 +137,7 @@ function App() {
 
     setEasterMonday(
       easterMondayDate.toLocaleString('en-GB', {
-        weekday: 'long',
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric',
+        dateStyle: 'full',
       })
     );
   }
