@@ -125,16 +125,13 @@ function App() {
       goodFridayDate.setDate(goodFridayDate.getDate() - 1);
     }
 
-    const goodFridayDayOfWeek = goodFridayDate.toLocaleString('en-GB', {
-      weekday: 'long',
-    });
-    const goodFridayDayOfMonth = goodFridayDate.getDate();
-    const goodFridayMonth = goodFridayDate.toLocaleString('en-GB', {
-      month: 'long',
-    });
-
     setGoodFriday(
-      `${goodFridayDayOfWeek}, ${goodFridayDayOfMonth} ${goodFridayMonth} ${year}`
+      goodFridayDate.toLocaleString('en-GB', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+      })
     );
 
     while (
@@ -143,16 +140,13 @@ function App() {
       easterMondayDate.setDate(easterMondayDate.getDate() + 1);
     }
 
-    const easterMondayDayOfWeek = easterMondayDate.toLocaleString('en-GB', {
-      weekday: 'long',
-    });
-    const easterMondayDayOfMonth = easterMondayDate.getDate();
-    const easterMondayMonth = easterMondayDate.toLocaleString('en-GB', {
-      month: 'long',
-    });
-
     setEasterMonday(
-      `${easterMondayDayOfWeek}, ${easterMondayDayOfMonth} ${easterMondayMonth} ${year}`
+      easterMondayDate.toLocaleString('en-GB', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+      })
     );
   }
 
