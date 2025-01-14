@@ -12,6 +12,22 @@ function App() {
   const [goodFriday, setGoodFriday] = useState('');
   const [easterMonday, setEasterMonday] = useState('');
 
+  const orderedDates = [
+    ["New Year's Day: ", newYearDay],
+    ['Christmas Day: ', christmasDay],
+    ['Boxing Day: ', boxingDay],
+    ['Early May Holiday: ', earlyMayDay],
+    ['Spring Holiday: ', lateMayDay],
+    ['Summer Holiday: ', summerDay],
+    ['Good Friday: ', goodFriday],
+    ['Easter Monday: ', easterMonday],
+  ].sort((a, b) => {
+    const date1 = new Date(a[1]);
+    const date2 = new Date(b[1]);
+
+    return date1 - date2;
+  });
+
   function handleSubmit(e) {
     e.preventDefault();
 
@@ -142,6 +158,7 @@ function App() {
     );
   }
 
+  const testList = ['Apple', 'Blueberry', 'Cantaloupe'];
   function gaussAlgorithm(easterYear) {
     const A = easterYear % 19;
     const B = easterYear % 4;
@@ -189,14 +206,13 @@ function App() {
       <>
         <h1>Bank Holidays for {year}:</h1>
         <br />
-        <p>New Year's Day: {newYearDay}</p>
-        <p>Early May Holiday: {earlyMayDay}</p>
-        <p>Spring Holiday: {lateMayDay}</p>
-        <p>Good Friday: {goodFriday}</p>
-        <p>Easter Monday: {easterMonday}</p>
-        <p>Summer Holiday: {summerDay}</p>
-        <p>Christmas Day: {christmasDay}</p>
-        <p>Boxing Day: {boxingDay}</p>
+
+        <ol>
+          {orderedDates.map((item) => {
+            return <li key={item}>{item}</li>;
+          })}
+        </ol>
+
         <button onClick={handleClear}>Back</button>
       </>
     );
